@@ -1,0 +1,56 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+
+body{
+	height: 100%;
+	overflow: hidden;
+}
+
+.score {
+	text-align: center;
+	font-size: 36px;
+	margin-bottom: 1rem;
+}
+
+.playground {
+	border: 2px solid #333;
+	width: 250px;
+	margin: 0 auto;
+	border-spacing: 0;
+}
+
+.playground > tr > td{
+	width: 25px;
+	height: 25px;
+	outline: 1px solid #ccc
+}
+
+.block_t {
+	background-color: palevioletred;
+}
+
+.block_o {
+	background-color: yellow;
+}
+
+.block_i {
+	background-color: cyan;
+}
+
+.block_l {
+	background-color: orangered;
+}
+
+.block_j {
+	background-color: blue;
+}
+
+.block_s {
+	background-color: green;
+}
+
+.block_z {
+	background-color: red;
+}
