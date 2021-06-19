@@ -6,16 +6,19 @@
 body{
 	height: 100%;
 	overflow: hidden;
+	background-color: #171717;
+	color: #EDEDED;
 }
 
 .score {
 	text-align: center;
 	font-size: 36px;
 	margin-bottom: 1rem;
+	margin-top: 5px;
 }
 
 .playground {
-	border: 2px solid #333;
+	border: 2px solid #444444;
 	width: 250px;
 	margin: 0 auto;
 	border-spacing: 0;
@@ -24,11 +27,11 @@ body{
 .playground > tr > td{
 	width: 25px;
 	height: 25px;
-	outline: 1px solid #ccc
+	outline: 1px solid #444444
 }
 
 .block_t {
-	background-color: palevioletred;
+	background-color: violet;
 }
 
 .block_o {
@@ -36,11 +39,11 @@ body{
 }
 
 .block_i {
-	background-color: cyan;
+	background-color: indigo;
 }
 
 .block_l {
-	background-color: orangered;
+	background-color: orange;
 }
 
 .block_j {
@@ -53,4 +56,55 @@ body{
 
 .block_z {
 	background-color: red;
+}
+
+#end_popup{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+#end_text > h2{
+	font-size: 48px;
+	padding-bottom: 3px;
+}
+
+#end_text > h3{
+	font-size: 36px;
+}
+
+#end_text > p{
+	padding-top: 16px;
+	font-size: 18px;
+
+	animation-duration: 1000ms;
+	animation-name: twinkle;
+	animation-iteration-count: infinite;
+}
+
+.hidden_popup {
+	display: none;
+}
+
+.appeared_popup {
+	display: flex;
+}
+
+
+@keyframes twinkle {
+	from {
+		opacity: 100%;
+	}
+
+	50% {
+		opacity: 30%;
+	}
+
+	to {
+		opacity: 100%;
+	}
 }
