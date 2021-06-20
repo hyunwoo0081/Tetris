@@ -57,8 +57,9 @@ const movingItem = {
 };
 
 let fallingItem = null;
-let score = 0;
-let interval;
+var score = 0;
+var gameStatus = 0;
+var interval;
 
 init();
 function init() {
@@ -66,6 +67,30 @@ function init() {
 	for (let i = 0; i < GAME_ROWS; i++) {
 		createNewRow();
 	}
+
+	gameStatus = 0;
+}
+
+function endGame(){
+	clearInterval(interval);
+	document.querySelector("#end_text > h3").innerHTML = score;
+	document.getElementById("end_popup").classList.replace("hidden_popup", "appeared_popup");
+
+	gameStatus = 0;
+}
+
+function startGame(){
+	document.getElementById("end_popup").classList.replace("appeared_popup", "hidden_popup");
+	score = 0;
+	scoreboard.innerHTML = score;
+
+	for(let i = 0; i < GAME_ROWS; i++){
+		playground.removeChild(playground.childNodes[i]);
+		createNewRow();
+	}
+
+	gameStatus = 1;
+
 	createMovingBlock();
 
 	interval = setInterval(function(){
@@ -86,18 +111,11 @@ function createMovingBlock(){
 	fallingItem = {...movingItem};
 	fallingItem.type = (["block_t","block_o","block_i","block_l","block_j","block_s","block_z"])[Math.floor(Math.random()*7)];
 
-	//todo : 블럭이 쌓이면 생성될 때 위에 계속 쌓이는 문제가 생김;
-	//1칸이 남았을 때 블럭이 움직일 수 있는지 확인 해야함;
-	//못 움직이면 게임 종료;
 	if(!checkBlockMobility(0,0,fallingItem.direction)){
 		if(!checkBlockMobility(0,-1,fallingItem.direction)){
-			//게임종료
-			clearInterval(interval);
-			alert("게임종료");
-			console.log("게임이종료");
+			endGame();
 			return false;
 		}else{
-			console.log("y -= 1")
 			fallingItem.y--;
 		}
 	}
@@ -143,19 +161,29 @@ function moveFallingBlock(dx, dy, direction){
 function fallBlock(){
 	const isFall = fallingItem === null ? false : moveFallingBlock(0, 1, fallingItem.direction);
 	if(!isFall){
-		//바닥에 착지;
 		if(fallingItem === null){
+			//if -> fallingItem is emtpy;
 			createMovingBlock();
 		}else{
-			//블럭을 바닥에 고정
+			//fix the fallingItem on the ground;
+			let isPosible = true;
 			BLOCKS[fallingItem.type][fallingItem.direction].forEach(block => {
 				const x = block[0] + fallingItem.x;
 				const y = block[1] + fallingItem.y;
-				const target = playground.childNodes[y].childNodes[x];
-				target.classList.remove("moving");
-				target.classList.add("fixed");
+				if(y === -1){
+					isPosible = false;
+				}else{
+					const target = playground.childNodes[y].childNodes[x];
+					target.classList.remove("moving");
+					target.classList.add("fixed");
+				}
 			});
 			fallingItem = null;
+
+			if(!isPosible){
+				endGame();
+				return false;
+			}
 
 			breakLine();
 		}
@@ -201,11 +229,18 @@ function checkBlockMobility(dx, dy, direction){
 }
 
 document.addEventListener("keydown", e => {
-	switch (e.keyCode) {
-		case 39: moveFallingBlock(1, 0, fallingItem.direction); break;
-		case 37: moveFallingBlock(-1, 0, fallingItem.direction); break;
-		case 40: fallBlock(); break;
-		case 32: moveFallingBlock(0, 0, (fallingItem.direction+1)%4);
-		default: break;
+	if(gameStatus == 0){
+		startGame();
+	}
+	else{
+		if(fallingItem === null) return false;
+
+		switch (e.keyCode) {
+			case 39: moveFallingBlock(1, 0, fallingItem.direction); break;
+			case 37: moveFallingBlock(-1, 0, fallingItem.direction); break;
+			case 40: fallBlock(); break;
+			case 32: moveFallingBlock(0, 0, (fallingItem.direction+1)%4);
+			default: break;
+		}
 	}
 });

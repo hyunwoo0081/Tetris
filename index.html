@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>테트리스</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-	  <div class="wrapper">
-		  <div class="score">0</div>
-		  <table class="playground"></table>
-	  </div>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>Tetris</title>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id="end_popup" class="hidden_popup">
+			<div id="end_text">
+				<h2>GAME OVER</h2>
+				<h3></h3>
+				<p>Press the Key to Restart</p>
+			</div>
+		</div>
+		
+		<div class="wrapper">
+			<div class="score">Press the Key to Start</div>
+			<table class="playground"></table>
+		</div>
 
-    <script src="script.js"></script>
-  </body>
+		<script src="script.js"></script>
+	</body>
 </html>
